@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
@@ -22,8 +22,9 @@ export class TodosService {
     return this.todoModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Todo> {
+  async findOne(id: string) {
     const todo = await this.todoModel.findById(id).exec();
+
     if (!todo) {
       throw new NotFoundException(`Todo with ID ${id} not found`);
     }
@@ -42,7 +43,8 @@ export class TodosService {
   }
 
   async remove(id: string): Promise<Todo> {
-    const deletedTodo = await this.todoModel.findByIdAndDelete(id).exec();
+
+    const deletedTodo = await this.todoModel.findByIdAndDelete(id).exec(); // no hard deletion, use soft deletion
     if (!deletedTodo) {
       throw new NotFoundException(`Todo with ID ${id} not found`);
     }

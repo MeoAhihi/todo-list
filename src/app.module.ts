@@ -3,11 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodosModule } from './todos/todos.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGODB_URI as string),
     TodosModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
